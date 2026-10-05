@@ -1,0 +1,12 @@
+# Spullen die jullie vaak kopen. Pas dit bestand gewoon aan.
+# naam:       wat je zoekt (Claude snapt ook varianten/merken)
+# max_prijs:  optioneel, alleen melden als de prijs hieronder zit (per verpakking)
+# opmerking:  optioneel, extra uitleg voor de matcher (merk, formaat, ...)
+items:
+  - naam: Pindakaas
+  - naam: Koffiebonen
+    opmerking: bij voorkeur 1 kg
+  - naam: Luiers maat 4
+    max_prijs: 8.00
+  - naam: Halfvolle melk
+  - naam: Wasmiddel

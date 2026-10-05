@@ -1,0 +1,16 @@
+# Winkels in de regio Eindhoven. Per winkel één of meer bronnen (HTML-pagina of PDF).
+# LET OP: controleer de URL's zelf, folderpagina's veranderen vaak.
+# Check ook de voorwaarden/robots.txt van een site voor je hem automatisch uitleest.
+stores:
+  - naam: Albert Heijn
+    bronnen: ["https://www.ah.nl/bonus"]
+  - naam: Jumbo
+    bronnen: ["https://www.jumbo.com/aanbiedingen"]
+  - naam: Lidl
+    bronnen: ["https://www.lidl.nl/c/aanbiedingen/a10006065"]
+  - naam: Aldi
+    bronnen: ["https://www.aldi.nl/aanbiedingen.html"]
+  - naam: Action
+    bronnen: ["https://www.action.com/nl-nl/aanbiedingen/"]
+  - naam: Kruidvat
+    bronnen: ["https://www.kruidvat.nl/acties"]
