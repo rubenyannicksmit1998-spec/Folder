@@ -1,7 +1,9 @@
 # Opdracht voor de wekelijkse run (Claude doet het uitlezen zelf, geen API-key nodig)
 
 1. Lees `items.yaml` en `stores.yaml`.
-2. Voor elke winkel zonder `status: geblokkeerd` en voor elke bron-URL:
+2a. Albert Heijn: `python -m bot.ah ah_offers.json` (app-API, werkt wel vanaf servers). Beoordeel de
+   resultaten en neem alleen producten die echt bij het item passen over in `offers.json`.
+2. Voor elke winkel zonder `status: geblokkeerd` en zonder `status: api` en voor elke bron-URL:
    `python -m bot.fetch <url>` (echte browser, JavaScript uitgevoerd).
    Mislukt het? Sla de winkel over en noteer dat in de samenvatting.
 3. Lees de tekst zelf en zoek aanbiedingen die echt bij een item uit `items.yaml` passen
@@ -14,9 +16,9 @@
 6. Commit `data/prijzen.sqlite` (prijsgeschiedenis) en push.
 7. Rond af met één regel: welke winkels gelukt zijn, welke niet.
 
-## Albert Heijn en Kruidvat (geblokkeerd voor servers)
-Deze sites blokkeren cloud-servers. Daarom zijn ze niet in de automatische run. Lees ze handmatig
-uit vanaf de eigen computer: open in Claude in Chrome / de ingebouwde browser
-https://www.ah.nl/bonus en https://www.kruidvat.nl/acties, lees de aanbiedingen, voeg ze toe aan
+## Kruidvat (geblokkeerd voor servers)
+AH loopt automatisch via de app-API. Kruidvat blokkeert cloud-servers en is niet in de automatische
+run. Lees het handmatig uit vanaf de eigen computer: open in Claude in Chrome / de ingebouwde browser
+https://www.kruidvat.nl/acties, lees de aanbiedingen, voeg ze toe aan
 `offers.json` en draai `python -m bot.report offers.json`. Folder-aggregators (folderz.nl,
 folders.nl) tonen alleen folder-afbeeldingen zonder tekstprijzen, dus daar heeft het geen zin.

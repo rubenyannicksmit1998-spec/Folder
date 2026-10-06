@@ -75,3 +75,18 @@ def test_discord_post(httpx_mock=None):
     threading.Thread(target=srv.handle_request, daemon=True).start()
     send_discord(f"http://127.0.0.1:{srv.server_port}/hook", "hallo")
     assert got == [{"content": "hallo"}]
+
+
+def test_ah_parse_products():
+    from bot.ah import parse_products
+
+    prods = [
+        {"title": "Calvé pot", "isBonus": False, "priceBeforeBonus": 4.75},
+        {"title": "AH pindakaas", "isBonus": True, "priceBeforeBonus": 7.38, "currentPrice": 7.16,
+         "bonusMechanism": "3% volume voordeel", "bonusEndDate": "2999-12-31"},
+        {"title": "Becel", "isBonus": True, "priceBeforeBonus": 3.0, "bonusMechanism": "1+1 gratis",
+         "bonusEndDate": "2026-10-12"},
+    ]
+    o = parse_products("Pindakaas", prods)
+    assert [x["product"] for x in o] == ["Becel (1+1 gratis)"]  # permanente korting valt af
+    assert o[0]["prijs"] == 3.0 and o[0]["normaal_prijs"] is None and o[0]["geldig_tot"] == "2026-10-12"

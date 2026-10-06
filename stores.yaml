@@ -16,7 +16,7 @@ stores:
   # Geblokkeerd voor servers (403, bot-detectie). Werkt mogelijk vanaf een gewone computer
   # of via een folder-aggregator:
   - naam: Albert Heijn
-    status: geblokkeerd
+    status: api  # via `python -m bot.ah` (onofficiële app-API), website is geblokkeerd
     bronnen: ["https://www.ah.nl/bonus"]
   - naam: Kruidvat
     status: geblokkeerd
