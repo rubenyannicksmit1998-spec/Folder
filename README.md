@@ -37,3 +37,7 @@ Plannen (maandag 08:30):
 
 Let op: de zoek-URL van Kruidvat in `stores.yaml` (`zoek_url`) is niet getest. Werkt `--dry-run` niet goed,
 laat het me weten, dan pas ik hem aan op wat je computer te zien krijgt.
+
+**Snelste route:** `bash scripts/install-local.sh` (Mac/Linux) of
+`powershell -ExecutionPolicy Bypass -File scripts\install-local.ps1` (Windows) doet de installatie,
+vraagt je webhook en plant de maandagrun.
