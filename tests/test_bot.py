@@ -94,7 +94,7 @@ def test_ah_parse_products():
 
 def test_extract_json_list_tolerates_chatter():
     import pytest
-    from bot.kruidvat_local import extract_json_list
+    from bot.local_run import extract_json_list
 
     assert extract_json_list('Hier:\n```json\n[{"item": "Melk", "prijs": 1}]\n```') == [{"item": "Melk", "prijs": 1}]
     assert extract_json_list("[]") == []

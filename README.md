@@ -1,43 +1,22 @@
-# Aanbiedingen-bot
+# Aanbiedingen-bot (lokaal)
 
-Claude leest de aanbiedingen van winkels rond Eindhoven, vergelijkt ze met `items.yaml`
-en meldt de goedkoopste deals op Discord. Er is **geen API-key** nodig: Claude zelf (een
-Claude Code-sessie/routine) doet het lezen en matchen, de scripts doen de rest.
+Draait op je eigen computer (thuis-IP, dus winkels blokkeren je niet). Per winkel haalt een browser de
+aanbiedingen op (AH via de app-API), je lokale Claude Code (`claude -p`, je eigen abonnement, **geen
+API-key**) kiest wat bij `items.yaml` past, en de beste deals gaan naar Discord. Prijsgeschiedenis staat
+in `data/prijzen.sqlite`.
 
-- `items.yaml` boodschappenlijst · `stores.yaml` winkels/bronnen
-- `python -m bot.fetch URL` pagina ophalen met een echte browser (Playwright)
-- `python -m bot.report offers.json [--dry-run]` ranken, prijsgeschiedenis, Discord
-- `ROUTINE.md` de opdracht die Claude elke run uitvoert
+## Installeren (eenmalig)
+Vooraf: Python 3.11+ en [Claude Code](https://claude.com/claude-code) (ingelogd). Dan, in de map van deze repo:
+- **Mac/Linux:** `bash scripts/install-local.sh`
+- **Windows:** `powershell -ExecutionPolicy Bypass -File scripts\install-local.ps1`
 
-## Setup
-`pip install -r requirements.txt` (Chromium moet beschikbaar zijn, zie `CHROMIUM_PATH`).
-Zet `DISCORD_WEBHOOK_URL` (Serverinstellingen → Integraties → Webhooks) als omgevingsvariabele
-in de Claude-omgeving. Tests: `pytest`.
+Het script installeert alles, vraagt je Discord-webhook en plant elke maandag 08:30 een run
+(de computer moet dan aan staan). Test eerst: `python -m bot.local_run --headed --dry-run`.
 
-## Automatisch draaien (routine)
-1. Zet in de Claude-omgeving de variabele `DISCORD_WEBHOOK_URL` (nooit in de repo of chat plakken).
-2. Zet `scripts/setup-environment.sh` als Setup script van de omgeving.
-3. De routine voert `ROUTINE.md` uit. AH en Kruidvat blokkeren servers: die doe je handmatig, zie `ROUTINE.md`.
+## Aanpassen
+- `items.yaml` boodschappenlijst (optioneel `max_prijs`, `opmerking`)
+- `stores.yaml` winkels en pagina's. Eén winkel testen: `--only Lidl`.
+- Webhook staat in `.env.local` (niet in git) of als omgevingsvariabele `DISCORD_WEBHOOK_URL`.
 
-## Kruidvat op je eigen computer
-Kruidvat blokkeert cloud-servers, dus dit draait lokaal (de computer moet op het geplande moment aan staan).
-
-Eenmalig:
-```
-git clone https://github.com/rubenyannicksmit1998-spec/Folder && cd Folder
-pip install -r requirements.txt && playwright install chromium
-# Claude Code installeren en inloggen: https://claude.com/claude-code  (gebruikt je abonnement, geen API-key)
-# DISCORD_WEBHOOK_URL als omgevingsvariabele zetten
-python -m bot.kruidvat_local --headed --dry-run   # eerst testen
-```
-Plannen (maandag 08:30):
-- **Mac/Linux:** `crontab -e` → `30 8 * * 1 cd /pad/naar/Folder && python -m bot.kruidvat_local`
-- **Windows:** Taakplanner → Basistaak → wekelijks maandag 08:30 → programma `python`,
-  argumenten `-m bot.kruidvat_local`, starten in de map `Folder`.
-
-Let op: de zoek-URL van Kruidvat in `stores.yaml` (`zoek_url`) is niet getest. Werkt `--dry-run` niet goed,
-laat het me weten, dan pas ik hem aan op wat je computer te zien krijgt.
-
-**Snelste route:** `bash scripts/install-local.sh` (Mac/Linux) of
-`powershell -ExecutionPolicy Bypass -File scripts\install-local.ps1` (Windows) doet de installatie,
-vraagt je webhook en plant de maandagrun.
+Onderdelen: `bot/local_run.py` (run), `bot/ah.py` (AH-API), `bot/report.py` (ranken + Discord),
+`bot/history.py` (prijsgeschiedenis). Tests: `pytest`.

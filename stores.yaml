@@ -1,5 +1,5 @@
-# Winkels + bronnen. Getest op 2026-10-06 met `python -m bot.fetch <url>`.
-# status: ok = pagina laadt met prijzen | geblokkeerd = site blokkeert servers (403)
+# Winkels + bronnen voor `python -m bot.local_run` (draait op je eigen computer).
+# Aldi, Lidl, Action, Dirk, Plus en Jumbo zijn getest; Kruidvat en AH-website nog niet vanaf een thuis-IP.
 stores:
   - naam: Aldi
     bronnen: ["https://www.aldi.nl/aanbiedingen.html"]
@@ -13,12 +13,9 @@ stores:
     bronnen: ["https://www.dirk.nl/aanbiedingen"]
   - naam: Plus
     bronnen: ["https://www.plus.nl/aanbiedingen"]
-  # Geblokkeerd voor servers (403, bot-detectie). Werkt mogelijk vanaf een gewone computer
-  # of via een folder-aggregator:
   - naam: Albert Heijn
-    status: api  # via `python -m bot.ah` (onofficiële app-API), website is geblokkeerd
+    api: ah  # onofficiële app-API (bot/ah.py), website is lastig
     bronnen: ["https://www.ah.nl/bonus"]
   - naam: Kruidvat
-    status: lokaal  # blokkeert servers; draait op je eigen computer met `python -m bot.kruidvat_local`
     bronnen: ["https://www.kruidvat.nl/acties"]
     zoek_url: "https://www.kruidvat.nl/search?q={item}"  # ONGETEST: pas aan als de zoekpagina anders werkt
