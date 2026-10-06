@@ -1,16 +1,23 @@
-# Winkels in de regio Eindhoven. Per winkel één of meer bronnen (HTML-pagina of PDF).
-# LET OP: controleer de URL's zelf, folderpagina's veranderen vaak.
-# Check ook de voorwaarden/robots.txt van een site voor je hem automatisch uitleest.
+# Winkels + bronnen. Getest op 2026-10-06 met `python -m bot.fetch <url>`.
+# status: ok = pagina laadt met prijzen | geblokkeerd = site blokkeert servers (403)
 stores:
-  - naam: Albert Heijn
-    bronnen: ["https://www.ah.nl/bonus"]
-  - naam: Jumbo
-    bronnen: ["https://www.jumbo.com/aanbiedingen"]
-  - naam: Lidl
-    bronnen: ["https://www.lidl.nl/c/aanbiedingen/a10006065"]
   - naam: Aldi
     bronnen: ["https://www.aldi.nl/aanbiedingen.html"]
+  - naam: Jumbo
+    bronnen: ["https://www.jumbo.com/aanbiedingen"]  # alleen de uitgelichte aanbiedingen
+  - naam: Lidl
+    bronnen: ["https://www.lidl.nl/aanbiedingen"]
   - naam: Action
-    bronnen: ["https://www.action.com/nl-nl/aanbiedingen/"]
+    bronnen: ["https://www.action.com/nl-nl/"]
+  - naam: Dirk
+    bronnen: ["https://www.dirk.nl/aanbiedingen"]
+  - naam: Plus
+    bronnen: ["https://www.plus.nl/aanbiedingen"]
+  # Geblokkeerd voor servers (403, bot-detectie). Werkt mogelijk vanaf een gewone computer
+  # of via een folder-aggregator:
+  - naam: Albert Heijn
+    status: geblokkeerd
+    bronnen: ["https://www.ah.nl/bonus"]
   - naam: Kruidvat
+    status: geblokkeerd
     bronnen: ["https://www.kruidvat.nl/acties"]

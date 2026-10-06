@@ -30,3 +30,48 @@ def test_message_flags_record_low():
 def test_split_message_respects_limit():
     text = "\n".join(["x" * 100] * 50)
     assert all(len(p) <= 1900 for p in split_message(text))
+
+
+def test_report_end_to_end(tmp_path, monkeypatch, capsys):
+    import json
+    from bot import report
+
+    (tmp_path / "items.yaml").write_text("items:\n  - naam: Melk\n  - naam: Luiers\n    max_prijs: 5\n")
+    offers = tmp_path / "offers.json"
+    offers.write_text(json.dumps([
+        {"winkel": "Jumbo", "item": "Melk", "product": "Jumbo melk", "prijs": 1.1},
+        {"winkel": "Aldi", "item": "Melk", "product": "Aldi melk", "prijs": 0.99},
+        {"winkel": "Aldi", "item": "Luiers", "product": "Duur", "prijs": 9},
+        {"winkel": "Aldi", "item": "Onbekend", "product": "x", "prijs": 1},
+    ]))
+    monkeypatch.delenv("DISCORD_WEBHOOK_URL", raising=False)
+    msg = report.run(str(offers), items_path=str(tmp_path / "items.yaml"), db_path=str(tmp_path / "p.db"))
+    assert msg.index("Aldi") < msg.index("Jumbo")  # goedkoopste eerst
+    assert "Duur" not in msg and "Onbekend" not in msg
+    # tweede run met lagere prijs -> record
+    offers.write_text(json.dumps([{"winkel": "Aldi", "item": "Melk", "product": "Aldi melk", "prijs": 0.8}]))
+    assert "Laagste prijs" in report.run(str(offers), items_path=str(tmp_path / "items.yaml"),
+                                         db_path=str(tmp_path / "p.db"))
+
+
+def test_discord_post(httpx_mock=None):
+    import json
+    import threading
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+    from bot.notify import send_discord
+
+    got = []
+
+    class H(BaseHTTPRequestHandler):
+        def do_POST(self):
+            got.append(json.loads(self.rfile.read(int(self.headers["Content-Length"]))))
+            self.send_response(204)
+            self.end_headers()
+
+        def log_message(self, *a):
+            pass
+
+    srv = HTTPServer(("127.0.0.1", 0), H)
+    threading.Thread(target=srv.handle_request, daemon=True).start()
+    send_discord(f"http://127.0.0.1:{srv.server_port}/hook", "hallo")
+    assert got == [{"content": "hallo"}]
