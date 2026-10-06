@@ -13,3 +13,8 @@ Claude Code-sessie/routine) doet het lezen en matchen, de scripts doen de rest.
 `pip install -r requirements.txt` (Chromium moet beschikbaar zijn, zie `CHROMIUM_PATH`).
 Zet `DISCORD_WEBHOOK_URL` (Serverinstellingen → Integraties → Webhooks) als omgevingsvariabele
 in de Claude-omgeving. Tests: `pytest`.
+
+## Automatisch draaien (routine)
+1. Zet in de Claude-omgeving de variabele `DISCORD_WEBHOOK_URL` (nooit in de repo of chat plakken).
+2. Zet `scripts/setup-environment.sh` als Setup script van de omgeving.
+3. De routine voert `ROUTINE.md` uit. AH en Kruidvat blokkeren servers: die doe je handmatig, zie `ROUTINE.md`.

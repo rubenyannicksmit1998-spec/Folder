@@ -13,3 +13,10 @@
 5. `python -m bot.report offers.json` (stuurt naar Discord als `DISCORD_WEBHOOK_URL` gezet is).
 6. Commit `data/prijzen.sqlite` (prijsgeschiedenis) en push.
 7. Rond af met één regel: welke winkels gelukt zijn, welke niet.
+
+## Albert Heijn en Kruidvat (geblokkeerd voor servers)
+Deze sites blokkeren cloud-servers. Daarom zijn ze niet in de automatische run. Lees ze handmatig
+uit vanaf de eigen computer: open in Claude in Chrome / de ingebouwde browser
+https://www.ah.nl/bonus en https://www.kruidvat.nl/acties, lees de aanbiedingen, voeg ze toe aan
+`offers.json` en draai `python -m bot.report offers.json`. Folder-aggregators (folderz.nl,
+folders.nl) tonen alleen folder-afbeeldingen zonder tekstprijzen, dus daar heeft het geen zin.
