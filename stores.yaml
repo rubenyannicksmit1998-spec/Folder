@@ -19,5 +19,6 @@ stores:
     status: api  # via `python -m bot.ah` (onofficiële app-API), website is geblokkeerd
     bronnen: ["https://www.ah.nl/bonus"]
   - naam: Kruidvat
-    status: geblokkeerd
+    status: lokaal  # blokkeert servers; draait op je eigen computer met `python -m bot.kruidvat_local`
     bronnen: ["https://www.kruidvat.nl/acties"]
+    zoek_url: "https://www.kruidvat.nl/search?q={item}"  # ONGETEST: pas aan als de zoekpagina anders werkt

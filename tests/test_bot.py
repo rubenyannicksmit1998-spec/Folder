@@ -90,3 +90,13 @@ def test_ah_parse_products():
     o = parse_products("Pindakaas", prods)
     assert [x["product"] for x in o] == ["Becel (1+1 gratis)"]  # permanente korting valt af
     assert o[0]["prijs"] == 3.0 and o[0]["normaal_prijs"] is None and o[0]["geldig_tot"] == "2026-10-12"
+
+
+def test_extract_json_list_tolerates_chatter():
+    import pytest
+    from bot.kruidvat_local import extract_json_list
+
+    assert extract_json_list('Hier:\n```json\n[{"item": "Melk", "prijs": 1}]\n```') == [{"item": "Melk", "prijs": 1}]
+    assert extract_json_list("[]") == []
+    with pytest.raises(ValueError):
+        extract_json_list("geen lijst")
